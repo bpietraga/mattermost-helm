@@ -4,7 +4,7 @@ DIST_ROOT=dist
 KUBE_INSTALL := $(shell command -v kubectl 2> /dev/null)
 HELM_INSTALL := $(shell command -v helm 2> /dev/null)
 
-SUB_CHARTS := $(shell ls mattermost-helm/charts)
+SUB_CHARTS := $(shell ls ./charts)
 
 all: package
 
@@ -17,24 +17,24 @@ ifndef HELM_INSTALL
 endif
 
 .init:
-	helm init --client-only
+	helm init
 	touch $@
-	
+
 package: check .init
 	# Temporary while we wait for changes to be merged upstream
 	helm repo add mattermost-mysqlha https://releases.mattermost.com/helm/mysqlha
 	mkdir -p dist
-	rm -f mattermost-helm/charts/*.tgz
-	helm package mattermost-helm/charts/* -d mattermost-helm/charts
+	rm -f ./charts/*.tgz
+	helm package ./charts/* -d ./charts
 	helm dep up mattermost-helm
 	helm package mattermost-helm -d $(DIST_ROOT)
 
 clean:
 	rm -rf $(DIST_ROOT)
-	rm -f mattermost-helm/charts/*.tgz
+	rm -f ./charts/*.tgz
 
 install: check
 	helm install dist/mattermost-helm*.*
 
 ltvalues:
-	cp ../platform-private/kubernetes/values_loadtest.yaml mattermost-helm/values.yaml
+	cp ../platform-private/kubernetes/values_loadtest.yaml ./values.yaml

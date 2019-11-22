@@ -54,7 +54,6 @@ The following table lists the configurable parameters of the Mattermost Team Edi
 
 Parameter                             | Description                                                                                     | Default
 ---                                   | ---                                                                                             | ---
-`configJSON`                          | The `config.json` configuration to be used by the mattermost server. The values you provide will by using Helm's merging behavior override individual default values only. See the [example configuration](#example-configuration) and the [Mattermost documentation](https://docs.mattermost.com/administration/config-settings.html) for details. |  See `configJSON` in [values.yaml](https://github.com/helm/charts/blob/master/stable/mattermost-team-edition/values.yaml)
 `image.repository`                    | Container image repository                                                                      | `mattermost/mattermost-team-edition`
 `image.tag`                           | Container image tag                                                                             | `5.13.2`
 `image.imagePullPolicy`               | Container image pull policy                                                                     | `IfNotPresent`
@@ -103,12 +102,6 @@ ingress:
   enabled: true
   hosts:
     - mattermost.example.com
-
-configJSON:
-  ServiceSettings:
-    SiteURL: "https://mattermost.example.com"
-  TeamSettings:
-    SiteName: "Mattermost on Example.com"
 ```
 
 ### External Databases

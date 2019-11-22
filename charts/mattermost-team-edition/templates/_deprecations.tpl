@@ -29,9 +29,6 @@ Compile all deprecations into a single message, and call fail.
 {{- $depHeader := print "\n\nFAILURE DUE TO DEPRECATIONS:\n----------------------------" }}
 {{- $depMessage := "" }}
 
-{{- /*
-deprecations in order to transition to a passthrough configuration in configJSON
-*/}}
 {{- $passthroughs := list }}
 {{- $passthroughs := append $passthroughs (include "mattermost.deprecate.auth.gitlab" .) }}
 {{- $passthroughs := append $passthroughs (include "mattermost.deprecate.config.siteUrl" .) }}
@@ -39,11 +36,6 @@ deprecations in order to transition to a passthrough configuration in configJSON
 {{- $passthroughs := append $passthroughs (include "mattermost.deprecate.config.fileSettings" .) }}
 {{- $passthroughs := append $passthroughs (include "mattermost.deprecate.config.emailSettings" .) }}
 {{- $passthroughs := without $passthroughs "" }}
-{{- if $passthroughs }}
-{{- $passthroughsHeader := print "\n\nconfigJSON:" }}
-{{- $passthroughsMessage := print $passthroughsHeader (join "\n" $passthroughs) }}
-{{- $depMessage := print $depMessage $passthroughsMessage }}}
-{{- end }}
 
 {{- if typeIs "string" .Values.extraInitContainers }}
 {{- $stringToListMessage := print "\n\nPlease make extraInitContainers a list instead of a string.\nGot a '|' symbol after extraInitContainers? Remove it." }}
